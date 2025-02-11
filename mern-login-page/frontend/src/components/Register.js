@@ -30,12 +30,13 @@ const Register = () => {
     }
 
     try {
-       await API.post('/register', { username, email, password });
-      setMessage('User registered successfully!');
+      const response = await API.post('/register', { username, email, password });
+      setMessage(response.data.message);  // Show the success message from the backend
       setFormData({ username: '', email: '', password: '' });
     } catch (err) {
+      console.error(err);
       setError(true);
-      setMessage('Registration failed. Please try again.');
+      setMessage(err.response?.data?.message || 'Registration failed. Please try again.');
     }
   };
 
